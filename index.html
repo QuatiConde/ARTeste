@@ -40,7 +40,7 @@
     </div>
 
     <!-- UNITY WEBGL (FALTAVA ISSO!) -->
-    <div id="unity-container" style="display:none;">
+    <div id="unity-container" style="visibility:hidden;">
       <canvas id="unity-canvas" width="960" height="600" tabindex="-1"></canvas>
       <div id="unity-loading-bar">
         <div id="unity-logo"></div>
@@ -118,7 +118,17 @@
           createUnityInstance(canvas, config, (progress) => {
             progressBarFull.style.width = 100 * progress + "%";
           }).then((unityInstance) => {
+
             loadingBar.style.display = "none";
+            container.style.visibility = "visible";
+            setTimeout(() => {
+                canvas.style.width = "100%";
+                canvas.style.height = "100%";
+                canvas.width = canvas.clientWidth;
+                canvas.height = canvas.clientHeight;
+              }, 200);
+
+
             console.log("Unity iniciado");
           }).catch((message) => {
             alert(message);
