@@ -1,42 +1,92 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="pt-br">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title>Unity Web Player | TesteAR2Git</title>
+  <title>Jogo de Tiro | Unity WebAR</title>
   <link rel="shortcut icon" href="TemplateData/favicon.ico">
   <link rel="stylesheet" href="TemplateData/style.css">
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes">
+
   <style>
+    body {
+      margin: 0;
+      background: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    /* Tela inicial */
+    #startScreen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #111;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+      z-index: 9999;
+    }
+
+    #startScreen h1 {
+      font-size: 42px;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    #startScreen p {
+      font-size: 18px;
+      max-width: 300px;
+      opacity: 0.8;
+      margin-bottom: 30px;
+    }
+
+    /* Bot„o estiloso */
     #startBtn {
       font-size: 22px;
-      padding: 15px 25px;
-      border-radius: 10px;
-      border: none;
-      background: #4CAF50;
+      padding: 15px 35px;
+      border-radius: 12px;
+      border: 2px solid white;
+      background: transparent;
       color: white;
       cursor: pointer;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 9999;
+      transition: 0.3s;
+    }
+
+    #startBtn:hover {
+      background: white;
+      color: black;
     }
   </style>
 </head>
-<body>
-  <!-- Bot√£o HTML que desbloqueia sensores -->
-  <button id="startBtn">Toque para iniciar</button>
 
+<body>
+
+  <!-- Tela inicial -->
+  <div id="startScreen">
+    <h1>Jogo de Tiro</h1>
+    <p>Como jogar:<br>Use o celular para mirar e toque na tela para atirar.</p>
+    <button id="startBtn">Iniciar</button>
+  </div>
+
+  <!-- Container Unity -->
   <div id="unity-container" style="display:none;">
     <canvas id="unity-canvas" width="960" height="600" tabindex="-1"></canvas>
+
     <div id="unity-loading-bar">
       <div id="unity-logo"></div>
       <div id="unity-progress-bar-empty">
         <div id="unity-progress-bar-full"></div>
       </div>
     </div>
+
     <div id="unity-warning"></div>
   </div>
 
@@ -85,15 +135,16 @@
       showBanner: unityShowBanner
     };
 
-    // Clique no bot√£o inicia tudo
+    // Clique no bot„o inicia tudo
     document.getElementById("startBtn").addEventListener("click", function () {
-      // Pede permiss√£o para sensores
+
+      // Pede permiss„o para sensores (iOS)
       if (typeof RequestGyroPermission === "function") {
         RequestGyroPermission();
       }
 
-      // Esconde o bot√£o
-      this.style.display = "none";
+      // Esconde a tela inicial
+      document.getElementById("startScreen").style.display = "none";
 
       // Mostra o container do Unity
       container.style.display = "block";
@@ -115,5 +166,7 @@
       document.body.appendChild(script);
     });
   </script>
+
 </body>
 </html>
+
